@@ -1,0 +1,121 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Fresh Avocados",
+      "description": "Creamy, naturally grown avocados harvested fresh from Keriet Farm.",
+      "price": 30,
+      "unit": "each",
+      "image": "/images/avocados.svg",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Kienyeji Eggs",
+      "description": "One full crate of fresh kienyeji eggs from healthy free-range hens.",
+      "price": 660,
+      "unit": "crate",
+      "image": "/images/eggs.svg",
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "Keriet Farm Honey",
+      "description": "Pure natural honey packed in a branded 700g Keriet Farm jar.",
+      "price": 750,
+      "unit": "700g jar",
+      "image": "/images/honey.svg",
+      "active": true
+    },
+    {
+      "id": 4,
+      "name": "Fresh Bananas",
+      "description": "Sweet, naturally ripened bananas sold in bundles of three.",
+      "price": 20,
+      "unit": "3 bananas",
+      "image": "/images/bananas.svg",
+      "active": true
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "name": "yyy",
+      "phone": "+254732567876",
+      "loyaltyPoints": 0,
+      "totalSpent": 30,
+      "createdAt": "2026-07-24T14:14:31.296Z",
+      "updatedAt": "2026-07-24T14:14:31.297Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "customerId": 1,
+      "customerName": "yyy",
+      "phone": "+254732567876",
+      "location": "langata",
+      "notes": "nothing for now",
+      "items": [
+        {
+          "productId": 1,
+          "productName": "Fresh Avocados",
+          "unitPrice": 30,
+          "quantity": 1,
+          "subtotal": 30
+        }
+      ],
+      "total": 30,
+      "pointsEarned": 0,
+      "status": "pending",
+      "createdAt": "2026-07-24T14:14:31.297Z"
+    }
+  ],
+  "ratings": [
+    {
+      "id": 1,
+      "productId": 2,
+      "customerName": "yyy",
+      "phone": "+254732567876",
+      "rating": 5,
+      "comment": "",
+      "approved": true,
+      "createdAt": "2026-07-24T14:15:29.870Z"
+    }
+  ],
+  "feedPosts": [
+    {
+      "id": 1,
+      "title": "Welcome to Keriet Farm",
+      "content": "Order fresh avocados, kienyeji eggs, pure honey and bananas directly from our farm.",
+      "category": "announcement",
+      "image": "/images/farm-feed.svg",
+      "published": true,
+      "createdAt": "2026-07-24T08:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "title": "Fresh kienyeji eggs available",
+      "content": "Fresh kienyeji eggs are available at KSh 660 per crate while stocks last.",
+      "category": "availability",
+      "image": "/images/eggs.svg",
+      "published": true,
+      "createdAt": "2026-07-24T09:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "title": "Earn Keriet Farm rewards",
+      "content": "Earn one loyalty point for every complete KSh 100 spent using the same phone number.",
+      "category": "loyalty",
+      "image": "/images/honey.svg",
+      "published": true,
+      "createdAt": "2026-07-24T10:00:00.000Z"
+    }
+  ],
+  "nextIds": {
+    "customer": 2,
+    "order": 2,
+    "rating": 2,
+    "feedPost": 4
+  }
+}
