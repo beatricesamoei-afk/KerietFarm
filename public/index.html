@@ -24,7 +24,6 @@
       <a href="#baskets">Baskets</a>
       <a href="/feed.html">Farm Feed</a>
       <a href="#contact">Contact</a>
-      <a class="admin-nav-link" href="/admin">Admin</a>
       <button id="account-button" class="ghost-button" type="button">Account</button>
       <button id="notification-button" class="icon-nav-button" type="button">🔔 <span id="notification-count">0</span></button>
       <button id="cart-button" class="cart-button" type="button">Cart <span id="cart-count">0</span></button>
@@ -88,6 +87,21 @@
       <div class="section-heading">
         <div><p class="eyebrow">Individual products</p><h2>Fresh essentials from the farm</h2></div>
         <p>Choose individual items and build your own order.</p>
+      </div>
+      <div class="catalogue-toolbar">
+        <label class="catalogue-search">
+          <span>Search products</span>
+          <input id="product-search" type="search" placeholder="Search eggs, honey, fruit…">
+        </label>
+        <label>
+          <span>Show</span>
+          <select id="product-filter">
+            <option value="all">All products</option>
+            <option value="individual">Individual products</option>
+            <option value="basket">Farm baskets</option>
+            <option value="favourites">My favourites</option>
+          </select>
+        </label>
       </div>
       <div id="product-message" class="message" hidden></div>
       <div id="individual-grid" class="product-grid"></div>
@@ -263,7 +277,7 @@
 
   <footer>
     <div><strong>Keriet Farm</strong><p>Fresh produce, baskets and customer rewards.</p></div>
-    <div><a href="tel:0790388133">0790 388 133</a><a href="tel:0707588544">0707 588 544</a><a class="footer-admin-link" href="/admin">Administrator dashboard</a></div>
+    <div><a href="tel:0790388133">0790 388 133</a><a href="tel:0707588544">0707 588 544</a></div>
   </footer>
 </body>
 </html>

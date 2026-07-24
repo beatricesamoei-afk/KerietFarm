@@ -1576,3 +1576,261 @@ footer div:last-child {
     display: none;
   }
 }
+
+
+/* Complete commerce dashboard and catalogue controls */
+.catalogue-toolbar {
+  display: flex;
+  margin: 18px 0 24px;
+  padding: 16px;
+  align-items: end;
+  gap: 14px;
+  border: 1px solid rgba(217, 180, 93, .16);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .045);
+}
+
+.catalogue-toolbar label {
+  display: grid;
+  flex: 1;
+  gap: 7px;
+  color: #dce7de;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.catalogue-toolbar input,
+.catalogue-toolbar select,
+.admin-search,
+.admin-status-select,
+.admin-table input {
+  width: 100%;
+  min-height: 43px;
+  padding: 10px 12px;
+  border: 1px solid rgba(21, 64, 41, .2);
+  border-radius: 11px;
+  background: #fffdf7;
+  color: #10291d;
+  font: inherit;
+}
+
+.product-card,
+.basket-card {
+  position: relative;
+}
+
+.favourite-button {
+  position: absolute;
+  z-index: 4;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: 50%;
+  background: rgba(255,253,247,.92);
+  color: #244c35;
+  box-shadow: 0 7px 18px rgba(0,0,0,.14);
+  cursor: pointer;
+  font-size: 23px;
+}
+
+.favourite-button.active {
+  color: #a33232;
+}
+
+.admin-main {
+  width: min(1420px, calc(100% - 30px));
+  margin: 0 auto;
+  padding: 44px 0 80px;
+}
+
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.admin-toolbar {
+  display: flex;
+  margin-bottom: 24px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.admin-toolbar h1 {
+  margin: 3px 0 0;
+}
+
+.admin-toolbar-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.summary-grid {
+  display: grid;
+  margin-bottom: 24px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.summary-card {
+  min-height: 105px;
+  padding: 18px;
+  border: 1px solid rgba(217,180,93,.16);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+}
+
+.summary-card span {
+  display: block;
+  color: #acbcb1;
+  font-size: 11px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.summary-card strong {
+  display: block;
+  margin-top: 12px;
+  color: #fff8e7;
+  font-size: 25px;
+}
+
+.admin-tabs {
+  display: flex;
+  margin-bottom: 20px;
+  padding: 7px;
+  gap: 7px;
+  overflow-x: auto;
+  border: 1px solid rgba(217,180,93,.14);
+  border-radius: 15px;
+  background: rgba(255,255,255,.035);
+}
+
+.admin-tabs button {
+  min-height: 42px;
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #b8c6bd;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.admin-tabs button.active {
+  background: #d9b45d;
+  color: #10291d;
+}
+
+.admin-tab-panel {
+  padding: 22px;
+  border: 1px solid rgba(217,180,93,.13);
+  border-radius: 20px;
+  background: rgba(255,255,255,.035);
+}
+
+.admin-search {
+  width: min(360px, 100%);
+}
+
+.admin-table-wrap {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fffdf7;
+  color: #183024;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 13px;
+  border-bottom: 1px solid rgba(21,64,41,.1);
+  text-align: left;
+  vertical-align: top;
+  font-size: 13px;
+}
+
+.admin-table th {
+  background: #e8efe5;
+  color: #173c28;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.admin-table td small {
+  display: block;
+  margin-top: 4px;
+  color: #6e7d74;
+}
+
+.table-actions,
+.admin-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.small-button {
+  min-height: 35px;
+  padding: 7px 10px;
+  border: 1px solid rgba(20,70,43,.18);
+  border-radius: 9px;
+  background: #e8efe5;
+  color: #173c28;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.small-button.danger {
+  border-color: rgba(143,42,42,.2);
+  background: #f9e7e4;
+  color: #872d2d;
+}
+
+.compact-input {
+  width: 95px !important;
+}
+
+.admin-status-select {
+  width: auto;
+  min-width: 160px;
+}
+
+@media (max-width: 1100px) {
+  .summary-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .catalogue-toolbar,
+  .admin-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-tab-panel {
+    padding: 13px;
+  }
+}

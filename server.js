@@ -43,7 +43,18 @@ app.use(helmet({
 }));
 app.use(express.json({ limit: "50kb" }));
 app.use(cookieParser());
-app.use("/api", rateLimit({ windowMs: 15 * 60 * 1000, limit: 220, standardHeaders: true, legacyHeaders: false }));
+app.use("/api", rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 220,
+  standardHeaders: true,
+  legacyHeaders: false
+}));
+app.use("/api/admin", rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 80,
+  standardHeaders: true,
+  legacyHeaders: false
+}));
 app.use(express.static(path.join(__dirname, "public")));
 
 function readStore() {
@@ -76,6 +87,14 @@ function migrateStore() {
     ? store.notifications
     : [];
   store.feedPosts = Array.isArray(store.feedPosts) ? store.feedPosts : [];
+  store.coupons = Array.isArray(store.coupons) ? store.coupons : [];
+  store.settings = store.settings && typeof store.settings === "object"
+    ? store.settings
+    : {
+        loyaltyPointsPerKsh: 0.01,
+        standardDeliveryFee: 0,
+        freeDeliveryThreshold: 0
+      };
 
   for (const customer of store.customers) {
     customer.loyaltyPoints = Number(customer.loyaltyPoints) || 0;
@@ -228,6 +247,26 @@ function getPublicProduct(product, ratings) {
     ? 0
     : Number((productRatings.reduce((sum, item) => sum + item.rating, 0) / productRatings.length).toFixed(1));
   return { ...product, averageRating, ratingCount: productRatings.length };
+}
+
+
+function safeCustomerForAdmin(customer) {
+  return {
+    id: customer.id,
+    name: customer.name,
+    email: customer.email,
+    phone: customer.phone,
+    address: customer.address || "",
+    loyaltyPoints: Number(customer.loyaltyPoints) || 0,
+    totalSpent: Number(customer.totalSpent) || 0,
+    createdAt: customer.createdAt,
+    updatedAt: customer.updatedAt
+  };
+}
+
+function csvCell(value) {
+  const text = String(value ?? "");
+  return `"${text.replace(/"/g, '""')}"`;
 }
 
 app.get("/api/config", (request, response) => {
@@ -404,6 +443,11 @@ app.post("/api/orders", requireAuth, (request, response) => {
     }
     const product = store.products.find(candidate => candidate.id === productId && candidate.active);
     if (!product) return response.status(400).json({ message: "One or more products are unavailable." });
+    if (Number.isInteger(product.stock) && product.stock < quantity) {
+      return response.status(409).json({
+        message: `${product.name} only has ${product.stock} item(s) remaining.`
+      });
+    }
     normalizedItems.push({
       productId, productName: product.name, unitPrice: product.price,
       quantity, subtotal: product.price * quantity
@@ -423,6 +467,12 @@ app.post("/api/orders", requireAuth, (request, response) => {
   };
 
   store.orders.push(order);
+  for (const item of normalizedItems) {
+    const product = store.products.find(candidate => candidate.id === item.productId);
+    if (product && Number.isInteger(product.stock)) {
+      product.stock = Math.max(0, product.stock - item.quantity);
+    }
+  }
   addNotification(
     store, customer.id, `Order #${order.id} received`,
     `We received your order worth KSh ${order.total}. We will notify you after payment is confirmed.`,
@@ -520,53 +570,261 @@ app.patch("/api/admin/orders/:orderId/complete", requireAdmin, (request, respons
   response.json({ message: "Order marked as completed.", order });
 });
 
-app.delete(
-  "/api/admin/customers/by-phone/:phone",
-  requireAdmin,
-  (request, response) => {
-    const phone = normalizeKenyanPhone(request.params.phone);
-    const store = readStore();
 
-    const customer = store.customers.find(
-      (item) => item.phone === phone
-    );
+app.get("/api/admin/summary", requireAdmin, (request, response) => {
+  const store = readStore();
+  const paidOrders = store.orders.filter(order => order.paymentStatus === "paid");
+  const awaitingPayments = store.orders.filter(
+    order => order.paymentStatus === "awaiting_verification"
+  );
+  const activeProducts = store.products.filter(product => product.active);
 
-    if (!customer) {
-      return response.status(404).json({
-        message: "No customer account was found with that phone number."
-      });
+  response.json({
+    summary: {
+      customers: store.customers.length,
+      orders: store.orders.length,
+      awaitingPayments: awaitingPayments.length,
+      paidRevenue: paidOrders.reduce(
+        (total, order) => total + Number(order.total || 0),
+        0
+      ),
+      activeProducts: activeProducts.length,
+      reviews: store.ratings.length
     }
+  });
+});
 
-    const hasOrders = store.orders.some(
-      (order) => order.customerId === customer.id
-    );
+app.get("/api/admin/customers", requireAdmin, (request, response) => {
+  const store = readStore();
+  response.json({
+    customers: [...store.customers]
+      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+      .map(safeCustomerForAdmin)
+  });
+});
 
-    if (hasOrders) {
-      return response.status(409).json({
-        message:
-          "This customer has orders and cannot be deleted automatically."
-      });
-    }
+app.delete("/api/admin/customers/:customerId", requireAdmin, (request, response) => {
+  const customerId = Number(request.params.customerId);
+  const store = readStore();
+  const customer = store.customers.find(item => item.id === customerId);
 
-    store.customers = store.customers.filter(
-      (item) => item.id !== customer.id
-    );
+  if (!customer) {
+    return response.status(404).json({ message: "Customer not found." });
+  }
 
-    store.notifications = store.notifications.filter(
-      (item) => item.customerId !== customer.id
-    );
+  const customerOrders = store.orders.filter(order => order.customerId === customerId);
+  const hasPaidOrder = customerOrders.some(order => order.paymentStatus === "paid");
 
-    store.ratings = store.ratings.filter(
-      (item) => item.customerId !== customer.id
-    );
-
-    writeStore(store);
-
-    response.json({
-      message: `Customer account using ${phone} was deleted.`
+  if (hasPaidOrder) {
+    return response.status(409).json({
+      message:
+        "This customer has paid orders. Keep the account for financial records."
     });
   }
-);
+
+  store.customers = store.customers.filter(item => item.id !== customerId);
+  store.orders = store.orders.filter(order => order.customerId !== customerId);
+  store.notifications = store.notifications.filter(
+    notification => notification.customerId !== customerId
+  );
+  store.ratings = store.ratings.filter(rating => rating.customerId !== customerId);
+  writeStore(store);
+
+  response.json({
+    message: `Test customer ${customer.phone} was deleted successfully.`
+  });
+});
+
+app.patch("/api/admin/customers/:customerId/reset-password", requireAdmin, async (request, response) => {
+  const customerId = Number(request.params.customerId);
+  const password = typeof request.body.password === "string"
+    ? request.body.password
+    : "";
+
+  if (password.length < 8) {
+    return response.status(400).json({
+      message: "The temporary password must contain at least 8 characters."
+    });
+  }
+
+  const store = readStore();
+  const customer = store.customers.find(item => item.id === customerId);
+
+  if (!customer) {
+    return response.status(404).json({ message: "Customer not found." });
+  }
+
+  customer.passwordHash = await bcrypt.hash(password, 12);
+  customer.updatedAt = new Date().toISOString();
+  addNotification(
+    store,
+    customer.id,
+    "Your password was reset",
+    "An administrator reset your password. Log in using the temporary password and contact Keriet Farm if you did not request this.",
+    "account"
+  );
+  writeStore(store);
+
+  response.json({ message: "Customer password reset successfully." });
+});
+
+app.patch("/api/admin/orders/:orderId/status", requireAdmin, (request, response) => {
+  const allowedStatuses = [
+    "pending",
+    "confirmed",
+    "preparing",
+    "ready",
+    "out_for_delivery",
+    "completed",
+    "cancelled"
+  ];
+  const status = cleanText(request.body.status, 40);
+
+  if (!allowedStatuses.includes(status)) {
+    return response.status(400).json({ message: "Invalid order status." });
+  }
+
+  const orderId = Number(request.params.orderId);
+  const store = readStore();
+  const order = store.orders.find(item => item.id === orderId);
+
+  if (!order) {
+    return response.status(404).json({ message: "Order not found." });
+  }
+
+  order.status = status;
+  order.updatedAt = new Date().toISOString();
+
+  addNotification(
+    store,
+    order.customerId,
+    `Order #${order.id} updated`,
+    `Your order status is now: ${status.replaceAll("_", " ")}.`,
+    "order"
+  );
+  writeStore(store);
+
+  response.json({ message: "Order status updated.", order });
+});
+
+app.get("/api/admin/products", requireAdmin, (request, response) => {
+  const store = readStore();
+  response.json({ products: store.products });
+});
+
+app.patch("/api/admin/products/:productId", requireAdmin, (request, response) => {
+  const productId = Number(request.params.productId);
+  const store = readStore();
+  const product = store.products.find(item => item.id === productId);
+
+  if (!product) {
+    return response.status(404).json({ message: "Product not found." });
+  }
+
+  if (request.body.name !== undefined) {
+    const name = cleanText(request.body.name, 100);
+    if (name.length < 2) {
+      return response.status(400).json({ message: "Enter a valid product name." });
+    }
+    product.name = name;
+  }
+
+  if (request.body.price !== undefined) {
+    const price = Number(request.body.price);
+    if (!Number.isFinite(price) || price < 0) {
+      return response.status(400).json({ message: "Enter a valid product price." });
+    }
+    product.price = Math.round(price);
+  }
+
+  if (request.body.active !== undefined) {
+    product.active = Boolean(request.body.active);
+  }
+
+  if (request.body.stock !== undefined) {
+    const stock = Number(request.body.stock);
+    if (!Number.isInteger(stock) || stock < 0) {
+      return response.status(400).json({ message: "Stock must be zero or more." });
+    }
+    product.stock = stock;
+  }
+
+  product.updatedAt = new Date().toISOString();
+  writeStore(store);
+  response.json({ message: "Product updated.", product });
+});
+
+app.get("/api/admin/reviews", requireAdmin, (request, response) => {
+  const store = readStore();
+  const reviews = store.ratings.map(rating => {
+    const customer = store.customers.find(item => item.id === rating.customerId);
+    const product = store.products.find(item => item.id === rating.productId);
+    return {
+      ...rating,
+      customerName: customer ? customer.name : "Deleted customer",
+      productName: product ? product.name : "Deleted product"
+    };
+  });
+  response.json({ reviews });
+});
+
+app.delete("/api/admin/reviews/:reviewId", requireAdmin, (request, response) => {
+  const reviewId = Number(request.params.reviewId);
+  const store = readStore();
+  const before = store.ratings.length;
+  store.ratings = store.ratings.filter(item => item.id !== reviewId);
+
+  if (store.ratings.length === before) {
+    return response.status(404).json({ message: "Review not found." });
+  }
+
+  writeStore(store);
+  response.json({ message: "Review deleted." });
+});
+
+app.get("/api/admin/export/orders.csv", requireAdmin, (request, response) => {
+  const store = readStore();
+  const rows = [
+    [
+      "Order ID",
+      "Date",
+      "Customer",
+      "Phone",
+      "Email",
+      "Location",
+      "Total KSh",
+      "Payment",
+      "M-Pesa Code",
+      "Payment Status",
+      "Order Status"
+    ]
+  ];
+
+  for (const order of store.orders) {
+    rows.push([
+      order.id,
+      order.createdAt,
+      order.customerName,
+      order.phone,
+      order.email,
+      order.location,
+      order.total,
+      order.paymentMethod,
+      order.mpesaCode || "",
+      order.paymentStatus,
+      order.status
+    ]);
+  }
+
+  const csv = rows.map(row => row.map(csvCell).join(",")).join("\n");
+  response.setHeader("Content-Type", "text/csv; charset=utf-8");
+  response.setHeader(
+    "Content-Disposition",
+    `attachment; filename="keriet-orders-${new Date().toISOString().slice(0, 10)}.csv"`
+  );
+  response.send(csv);
+});
+
 app.get("/api/health", (request, response) => {
   response.json({ status: "ok", service: "Keriet Farm API" });
 });

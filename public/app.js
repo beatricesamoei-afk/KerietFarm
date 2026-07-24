@@ -3,6 +3,9 @@ let products = [];
 let currentCustomer = null;
 let publicConfig = null;
 let cart = loadCart();
+let favourites = loadFavourites();
+let productQuery = "";
+let productFilter = "all";
 
 const individualGrid = $("#individual-grid");
 const basketGrid = $("#basket-grid");
@@ -36,6 +39,8 @@ const ratingMessage = $("#rating-message");
 const notificationList = $("#notification-list");
 const notificationMessage = $("#notification-message");
 const notificationCount = $("#notification-count");
+const productSearch = $("#product-search");
+const productFilterSelect = $("#product-filter");
 
 function loadCart() {
   try { return JSON.parse(localStorage.getItem("kerietFarmCart")) || []; }
@@ -43,6 +48,29 @@ function loadCart() {
 }
 function saveCart() {
   localStorage.setItem("kerietFarmCart", JSON.stringify(cart));
+}
+
+function loadFavourites() {
+  try {
+    const stored = JSON.parse(localStorage.getItem("kerietFarmFavourites"));
+    return Array.isArray(stored) ? stored.map(Number).filter(Number.isInteger) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveFavourites() {
+  localStorage.setItem("kerietFarmFavourites", JSON.stringify(favourites));
+}
+
+function toggleFavourite(productId) {
+  if (favourites.includes(productId)) {
+    favourites = favourites.filter(id => id !== productId);
+  } else {
+    favourites.push(productId);
+  }
+  saveFavourites();
+  renderProducts();
 }
 function money(value) {
   return new Intl.NumberFormat("en-KE", {
@@ -90,12 +118,42 @@ async function loadInitialData() {
 function renderProducts() {
   individualGrid.innerHTML = "";
   basketGrid.innerHTML = "";
-  for (const product of products) {
+
+  const query = productQuery.trim().toLowerCase();
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = !query || [
+      product.name,
+      product.description,
+      product.category,
+      ...(product.contents || [])
+    ].some(value => String(value || "").toLowerCase().includes(query));
+
+    const matchesFilter =
+      productFilter === "all" ||
+      (productFilter === "individual" && product.category !== "basket") ||
+      (productFilter === "basket" && product.category === "basket") ||
+      (productFilter === "favourites" && favourites.includes(product.id));
+
+    return matchesSearch && matchesFilter;
+  });
+
+  for (const product of filteredProducts) {
     if (product.category === "basket") {
       basketGrid.append(createBasketCard(product));
     } else {
       individualGrid.append(createProductCard(product));
     }
+  }
+
+  const hasIndividuals = filteredProducts.some(product => product.category !== "basket");
+  const hasBaskets = filteredProducts.some(product => product.category === "basket");
+  individualGrid.closest("section").hidden = !hasIndividuals && productFilter !== "all";
+  basketGrid.closest("section").hidden = !hasBaskets && productFilter !== "all";
+
+  if (!filteredProducts.length) {
+    showMessage(productMessage, "No products match your search or filter.", "error");
+  } else {
+    hideMessage(productMessage);
   }
 }
 
@@ -149,6 +207,13 @@ function createProductCard(product) {
   const article = document.createElement("article");
   article.className = "product-card";
 
+  const favouriteButton = document.createElement("button");
+  favouriteButton.className = `favourite-button ${favourites.includes(product.id) ? "active" : ""}`;
+  favouriteButton.type = "button";
+  favouriteButton.setAttribute("aria-label", favourites.includes(product.id) ? "Remove from favourites" : "Add to favourites");
+  favouriteButton.textContent = favourites.includes(product.id) ? "♥" : "♡";
+  favouriteButton.onclick = () => toggleFavourite(product.id);
+
   const image = document.createElement("img");
   image.className = "product-image";
   image.src = product.image;
@@ -162,7 +227,7 @@ function createProductCard(product) {
     <p>${product.description}</p>
   `;
   content.append(createRatingLine(product), createFooter(product));
-  article.append(image, content);
+  article.append(favouriteButton, image, content);
   return article;
 }
 
@@ -171,6 +236,14 @@ function createBasketCard(product) {
   article.className = product.poster
     ? "basket-card basket-poster-card"
     : "basket-card";
+
+  const favouriteButton = document.createElement("button");
+  favouriteButton.className = `favourite-button ${favourites.includes(product.id) ? "active" : ""}`;
+  favouriteButton.type = "button";
+  favouriteButton.setAttribute("aria-label", favourites.includes(product.id) ? "Remove from favourites" : "Add to favourites");
+  favouriteButton.textContent = favourites.includes(product.id) ? "♥" : "♡";
+  favouriteButton.onclick = () => toggleFavourite(product.id);
+  article.append(favouriteButton);
 
   const contents = (product.contents || [])
     .map(item => `<li>${item}</li>`)
@@ -190,6 +263,8 @@ function createBasketCard(product) {
         <ul>${contents}</ul>
       </div>
     `;
+
+    article.prepend(favouriteButton);
 
     article
       .querySelector(".poster-preview-button")
@@ -217,6 +292,8 @@ function createBasketCard(product) {
       <ul>${contents}</ul>
     </div>
   `;
+
+  article.prepend(favouriteButton);
 
   article
     .querySelector(".basket-content")
@@ -560,5 +637,18 @@ ratingForm.addEventListener("submit", async event => {
     showMessage(ratingMessage, error.message, "error");
   }
 });
+
+if (productSearch) {
+  productSearch.addEventListener("input", () => {
+    productQuery = productSearch.value;
+    renderProducts();
+  });
+}
+if (productFilterSelect) {
+  productFilterSelect.addEventListener("change", () => {
+    productFilter = productFilterSelect.value;
+    renderProducts();
+  });
+}
 
 loadInitialData();

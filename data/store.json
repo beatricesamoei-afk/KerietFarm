@@ -9,7 +9,8 @@
       "image": "/images/eggs.jpg.jpeg",
       "category": "individual",
       "badge": "Farm fresh",
-      "active": true
+      "active": true,
+      "stock": 98
     },
     {
       "id": 2,
@@ -20,7 +21,8 @@
       "image": "/images/eggs.jpg.jpeg",
       "category": "individual",
       "badge": "Best value",
-      "active": true
+      "active": true,
+      "stock": 100
     },
     {
       "id": 3,
@@ -31,7 +33,8 @@
       "image": "/images/honey.jpg.jpeg",
       "category": "individual",
       "badge": "Pure honey",
-      "active": true
+      "active": true,
+      "stock": 100
     },
     {
       "id": 4,
@@ -42,7 +45,8 @@
       "image": "/images/avocados.jpg.jpeg",
       "category": "individual",
       "badge": "Fresh harvest",
-      "active": true
+      "active": true,
+      "stock": 100
     },
     {
       "id": 5,
@@ -53,7 +57,8 @@
       "image": "/images/bananas.jpg.jpeg",
       "category": "individual",
       "badge": "Green or ripe",
-      "active": true
+      "active": true,
+      "stock": 100
     },
     {
       "id": 6,
@@ -70,7 +75,8 @@
         "6 bananas"
       ],
       "active": true,
-      "poster": true
+      "poster": true,
+      "stock": 100
     },
     {
       "id": 7,
@@ -88,7 +94,8 @@
         "12 bananas"
       ],
       "active": true,
-      "poster": true
+      "poster": true,
+      "stock": 100
     },
     {
       "id": 8,
@@ -105,7 +112,8 @@
         "6 avocados"
       ],
       "active": true,
-      "poster": true
+      "poster": true,
+      "stock": 100
     },
     {
       "id": 9,
@@ -123,13 +131,83 @@
         "12 bananas"
       ],
       "active": true,
-      "poster": true
+      "poster": true,
+      "stock": 100
     }
   ],
-  "customers": [],
-  "orders": [],
+  "customers": [
+    {
+      "id": 1,
+      "name": "test",
+      "email": "test123@gmail.com",
+      "phone": "+254707588544",
+      "address": "nairobi",
+      "passwordHash": "$2b$12$uJS42Zavpkf6WgP2SPr4ou09xCwd0.UVVaMds3A4F/luTLmR25ZHW",
+      "loyaltyPoints": 6,
+      "totalSpent": 660,
+      "createdAt": "2026-07-24T21:20:45.066Z",
+      "updatedAt": "2026-07-24T21:22:16.350Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "customerId": 1,
+      "customerName": "test",
+      "email": "test123@gmail.com",
+      "phone": "+254707588544",
+      "location": "nairobi",
+      "notes": "",
+      "items": [
+        {
+          "productId": 1,
+          "productName": "Kienyeji Eggs – 15 Eggs",
+          "unitPrice": 330,
+          "quantity": 2,
+          "subtotal": 660
+        }
+      ],
+      "total": 660,
+      "paymentMethod": "mpesa",
+      "mpesaCode": "uk12345678",
+      "paymentStatus": "paid",
+      "status": "confirmed",
+      "pointsAwarded": true,
+      "pointsEarned": 6,
+      "createdAt": "2026-07-24T21:21:20.721Z",
+      "paymentConfirmedAt": "2026-07-24T21:22:16.349Z"
+    }
+  ],
   "ratings": [],
-  "notifications": [],
+  "notifications": [
+    {
+      "id": 1,
+      "customerId": 1,
+      "title": "Welcome to Keriet Farm",
+      "message": "Your Keriet Farm account has been created successfully.",
+      "type": "account",
+      "read": false,
+      "createdAt": "2026-07-24T21:20:45.071Z"
+    },
+    {
+      "id": 2,
+      "customerId": 1,
+      "title": "Order #1 received",
+      "message": "We received your order worth KSh 660. We will notify you after payment is confirmed.",
+      "type": "order",
+      "read": false,
+      "createdAt": "2026-07-24T21:21:20.721Z"
+    },
+    {
+      "id": 3,
+      "customerId": 1,
+      "title": "Payment confirmed for order #1",
+      "message": "Your payment was confirmed. You earned 6 point(s) and now have 6 point(s).",
+      "type": "payment",
+      "read": false,
+      "createdAt": "2026-07-24T21:22:16.350Z"
+    }
+  ],
   "feedPosts": [
     {
       "id": 1,
@@ -151,10 +229,16 @@
     }
   ],
   "nextIds": {
-    "customer": 1,
-    "order": 1,
+    "customer": 2,
+    "order": 2,
     "rating": 1,
-    "notification": 1,
+    "notification": 4,
     "feedPost": 3
+  },
+  "coupons": [],
+  "settings": {
+    "loyaltyPointsPerKsh": 0.01,
+    "standardDeliveryFee": 0,
+    "freeDeliveryThreshold": 0
   }
 }

@@ -3,37 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Order Management | Keriet Farm</title>
+  <meta name="robots" content="noindex,nofollow">
+  <title>Keriet Farm Administration</title>
   <link rel="stylesheet" href="/styles.css">
   <script src="/admin.js" defer></script>
 </head>
 <body class="admin-body">
-  <header class="site-header">
+  <header class="site-header admin-header">
     <a class="brand" href="/">
       <span class="brand-mark">KF</span>
-      <span class="brand-copy"><span class="brand-name-row"><strong>Keriet Farm</strong><img class="brand-leaves" src="/images/leaves.svg" alt=""></span><small>Farm to Table • Order management</small></span>
+      <span class="brand-copy">
+        <span class="brand-name-row">
+          <strong>Keriet Farm</strong>
+          <img class="brand-leaves" src="/images/leaves.svg" alt="">
+        </span>
+        <small>Private administration</small>
+      </span>
     </a>
     <nav><a href="/">Return to shop</a></nav>
   </header>
 
   <main class="admin-main">
-    <section class="admin-login-card">
-      <p class="eyebrow">Administrator</p>
-      <h1>Manage customer orders</h1>
-      <p>Enter the administrator key stored in your .env or Render environment variables.</p>
-      <form id="admin-key-form">
-        <label>Administrator key<input id="admin-key" type="password" required></label>
-        <button class="button" type="submit">Load orders</button>
+    <section id="admin-login-card" class="admin-login-card">
+      <p class="eyebrow">Protected area</p>
+      <h1>Administrator sign-in</h1>
+      <p>Enter the private administrator key configured in Render.</p>
+      <form id="admin-key-form" class="stack-form">
+        <label>Administrator key
+          <input id="admin-key" type="password" autocomplete="current-password" required>
+        </label>
+        <button class="button" type="submit">Open dashboard</button>
       </form>
       <div id="admin-message" class="message" hidden></div>
     </section>
 
-    <section id="orders-section" class="section" hidden>
-      <div class="section-heading">
-        <div><p class="eyebrow">Orders</p><h2>Payment and fulfilment</h2></div>
-        <button id="refresh-orders" class="button secondary" type="button">Refresh</button>
+    <section id="admin-dashboard" hidden>
+      <div class="admin-toolbar">
+        <div>
+          <p class="eyebrow">Business control centre</p>
+          <h1>Keriet Farm dashboard</h1>
+        </div>
+        <div class="admin-toolbar-actions">
+          <button id="export-orders" class="button secondary" type="button">Export orders CSV</button>
+          <button id="admin-logout" class="button secondary" type="button">Lock dashboard</button>
+        </div>
       </div>
-      <div id="admin-orders" class="admin-orders"></div>
+
+      <div id="summary-cards" class="summary-grid"></div>
+
+      <nav class="admin-tabs" aria-label="Dashboard sections">
+        <button class="active" data-tab="orders" type="button">Orders</button>
+        <button data-tab="customers" type="button">Customers</button>
+        <button data-tab="products" type="button">Products & stock</button>
+        <button data-tab="reviews" type="button">Reviews</button>
+      </nav>
+
+      <section id="tab-orders" class="admin-tab-panel">
+        <div class="section-heading">
+          <div><p class="eyebrow">Payments and fulfilment</p><h2>Orders</h2></div>
+          <button class="button secondary refresh-admin" type="button">Refresh</button>
+        </div>
+        <div id="admin-orders" class="admin-orders"></div>
+      </section>
+
+      <section id="tab-customers" class="admin-tab-panel" hidden>
+        <div class="section-heading">
+          <div><p class="eyebrow">Accounts</p><h2>Customers</h2></div>
+          <input id="customer-search" class="admin-search" type="search" placeholder="Search name, email or phone">
+        </div>
+        <div id="admin-customers" class="admin-table-wrap"></div>
+      </section>
+
+      <section id="tab-products" class="admin-tab-panel" hidden>
+        <div class="section-heading">
+          <div><p class="eyebrow">Catalogue</p><h2>Products and stock</h2></div>
+        </div>
+        <div id="admin-products" class="admin-table-wrap"></div>
+      </section>
+
+      <section id="tab-reviews" class="admin-tab-panel" hidden>
+        <div class="section-heading">
+          <div><p class="eyebrow">Moderation</p><h2>Customer reviews</h2></div>
+        </div>
+        <div id="admin-reviews" class="admin-table-wrap"></div>
+      </section>
     </section>
   </main>
 </body>
