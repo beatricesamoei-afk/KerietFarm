@@ -520,6 +520,53 @@ app.patch("/api/admin/orders/:orderId/complete", requireAdmin, (request, respons
   response.json({ message: "Order marked as completed.", order });
 });
 
+app.delete(
+  "/api/admin/customers/by-phone/:phone",
+  requireAdmin,
+  (request, response) => {
+    const phone = normalizeKenyanPhone(request.params.phone);
+    const store = readStore();
+
+    const customer = store.customers.find(
+      (item) => item.phone === phone
+    );
+
+    if (!customer) {
+      return response.status(404).json({
+        message: "No customer account was found with that phone number."
+      });
+    }
+
+    const hasOrders = store.orders.some(
+      (order) => order.customerId === customer.id
+    );
+
+    if (hasOrders) {
+      return response.status(409).json({
+        message:
+          "This customer has orders and cannot be deleted automatically."
+      });
+    }
+
+    store.customers = store.customers.filter(
+      (item) => item.id !== customer.id
+    );
+
+    store.notifications = store.notifications.filter(
+      (item) => item.customerId !== customer.id
+    );
+
+    store.ratings = store.ratings.filter(
+      (item) => item.customerId !== customer.id
+    );
+
+    writeStore(store);
+
+    response.json({
+      message: `Customer account using ${phone} was deleted.`
+    });
+  }
+);
 app.get("/api/health", (request, response) => {
   response.json({ status: "ok", service: "Keriet Farm API" });
 });
