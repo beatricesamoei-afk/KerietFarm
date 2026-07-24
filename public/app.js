@@ -309,19 +309,6 @@ function openAccount() {
   updateAccountView();
   accountDialog.showModal();
 }
-function showLogin() {
-  loginForm.hidden = false;
-  signupForm.hidden = true;
-  $("#show-login").classList.add("active");
-  $("#show-signup").classList.remove("active");
-}
-function showSignup() {
-  loginForm.hidden = true;
-  signupForm.hidden = false;
-  $("#show-signup").classList.add("active");
-  $("#show-login").classList.remove("active");
-}
-
 async function refreshAccount(showErrors = true) {
   try {
     currentCustomer = (await api("/api/auth/me")).customer;
@@ -444,8 +431,6 @@ $("#notification-button").onclick = async () => {
 $("#account-button").onclick = openAccount;
 $("#account-cta").onclick = openAccount;
 $("#close-account").onclick = () => accountDialog.close();
-$("#show-login").onclick = showLogin;
-$("#show-signup").onclick = showSignup;
 
 loginForm.addEventListener("submit", async event => {
   event.preventDefault();

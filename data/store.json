@@ -126,79 +126,10 @@
       "poster": true
     }
   ],
-  "customers": [
-    {
-      "id": 1,
-      "name": "test",
-      "email": "test123@gmail.com",
-      "phone": "+254707588544",
-      "address": "nairobi",
-      "passwordHash": "$2b$12$l1BLCRJKYA4u./dV4R.RQeDk/k8CLIevNcEpdUnPWYPwthOeQ7iL2",
-      "loyaltyPoints": 12,
-      "totalSpent": 1250,
-      "createdAt": "2026-07-24T19:30:09.445Z",
-      "updatedAt": "2026-07-24T19:32:03.760Z"
-    }
-  ],
-  "orders": [
-    {
-      "id": 1,
-      "customerId": 1,
-      "customerName": "test",
-      "email": "test123@gmail.com",
-      "phone": "+254707588544",
-      "location": "nairobi",
-      "notes": "",
-      "items": [
-        {
-          "productId": 8,
-          "productName": "Performance Basket",
-          "unitPrice": 1250,
-          "quantity": 1,
-          "subtotal": 1250
-        }
-      ],
-      "total": 1250,
-      "paymentMethod": "mpesa",
-      "mpesaCode": "uk12345678",
-      "paymentStatus": "paid",
-      "status": "confirmed",
-      "pointsAwarded": true,
-      "pointsEarned": 12,
-      "createdAt": "2026-07-24T19:30:52.604Z",
-      "paymentConfirmedAt": "2026-07-24T19:32:03.760Z"
-    }
-  ],
+  "customers": [],
+  "orders": [],
   "ratings": [],
-  "notifications": [
-    {
-      "id": 1,
-      "customerId": 1,
-      "title": "Welcome to Keriet Farm",
-      "message": "Your Keriet Farm account has been created successfully.",
-      "type": "account",
-      "read": false,
-      "createdAt": "2026-07-24T19:30:09.445Z"
-    },
-    {
-      "id": 2,
-      "customerId": 1,
-      "title": "Order #1 received",
-      "message": "We received your order worth KSh 1250. We will notify you after payment is confirmed.",
-      "type": "order",
-      "read": false,
-      "createdAt": "2026-07-24T19:30:52.604Z"
-    },
-    {
-      "id": 3,
-      "customerId": 1,
-      "title": "Payment confirmed for order #1",
-      "message": "Your payment was confirmed. You earned 12 point(s) and now have 12 point(s).",
-      "type": "payment",
-      "read": false,
-      "createdAt": "2026-07-24T19:32:03.760Z"
-    }
-  ],
+  "notifications": [],
   "feedPosts": [
     {
       "id": 1,
@@ -220,10 +151,10 @@
     }
   ],
   "nextIds": {
-    "customer": 2,
-    "order": 2,
+    "customer": 1,
+    "order": 1,
     "rating": 1,
-    "notification": 4,
+    "notification": 1,
     "feedPost": 3
   }
 }

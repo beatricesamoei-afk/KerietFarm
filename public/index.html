@@ -9,6 +9,11 @@
   <script src="/app.js" defer></script>
 </head>
 <body>
+  <div class="announcement-bar">
+    <span>Farm to Table freshness</span>
+    <span>Free Thursday delivery to Riara University and Wilson Airport</span>
+    <span>M-Pesa: 0707 588 544</span>
+  </div>
   <header class="site-header">
     <a class="brand" href="/">
       <span class="brand-mark">KF</span>
@@ -19,6 +24,7 @@
       <a href="#baskets">Baskets</a>
       <a href="/feed.html">Farm Feed</a>
       <a href="#contact">Contact</a>
+      <a class="admin-nav-link" href="/admin">Admin</a>
       <button id="account-button" class="ghost-button" type="button">Account</button>
       <button id="notification-button" class="icon-nav-button" type="button">🔔 <span id="notification-count">0</span></button>
       <button id="cart-button" class="cart-button" type="button">Cart <span id="cart-count">0</span></button>
@@ -56,6 +62,26 @@
       <article><span>🌿</span><div><strong>Fresh farm produce</strong><p>Real products photographed from Keriet Farm.</p></div></article>
       <article><span>🔐</span><div><strong>Secure customer account</strong><p>Sign up, log in and track orders.</p></div></article>
       <article><span>⭐</span><div><strong>Points after payment</strong><p>One point per complete KSh 100.</p></div></article>
+    </section>
+
+
+    <section class="commerce-confidence">
+      <article>
+        <span class="confidence-icon">✓</span>
+        <div><strong>Freshly selected</strong><p>Farm products prepared carefully for every order.</p></div>
+      </article>
+      <article>
+        <span class="confidence-icon">M</span>
+        <div><strong>Simple M-Pesa payment</strong><p>Pay securely to 0707 588 544 and submit your transaction code.</p></div>
+      </article>
+      <article>
+        <span class="confidence-icon">★</span>
+        <div><strong>Earn loyalty points</strong><p>Points are credited after payment has been confirmed.</p></div>
+      </article>
+      <article>
+        <span class="confidence-icon">☎</span>
+        <div><strong>Direct customer support</strong><p>Call 0790 388 133 or 0707 588 544 for assistance.</p></div>
+      </article>
     </section>
 
     <section id="products" class="section">
@@ -112,22 +138,46 @@
     <div class="dialog-content">
       <div class="panel-heading"><div><p class="eyebrow">Keriet account</p><h2>Welcome</h2></div><button id="close-account" class="icon-button" type="button">×</button></div>
       <div id="logged-out-view">
-        <div class="auth-tabs"><button id="show-login" class="active" type="button">Log in</button><button id="show-signup" type="button">Create account</button></div>
-        <form id="login-form" class="stack-form">
-          <label>Email address<input name="email" type="email" required></label>
-          <label>Password<input name="password" type="password" required></label>
-          <div id="login-message" class="message" hidden></div>
-          <button class="button full" type="submit">Log in</button>
-        </form>
-        <form id="signup-form" class="stack-form" hidden>
-          <label>Full name<input name="name" minlength="2" maxlength="80" required></label>
-          <label>Email address<input name="email" type="email" required></label>
-          <label>Kenyan phone number<input name="phone" type="tel" placeholder="0712 345 678" required></label>
-          <label>Address or usual delivery location<input name="address" maxlength="180"></label>
-          <label>Password<input name="password" type="password" minlength="8" required></label>
-          <div id="signup-message" class="message" hidden></div>
-          <button class="button full" type="submit">Create account</button>
-        </form>
+        <div class="auth-choice-grid">
+          <section class="auth-choice-card login-card">
+            <div class="auth-choice-heading">
+              <span class="auth-choice-icon">🔐</span>
+              <div>
+                <p class="eyebrow">Returning customer</p>
+                <h3>Log in to your account</h3>
+                <p>Access your points, notifications and order history.</p>
+              </div>
+            </div>
+
+            <form id="login-form" class="stack-form">
+              <label>Email address<input name="email" type="email" autocomplete="email" required></label>
+              <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+              <div id="login-message" class="message" hidden></div>
+              <button class="button full" type="submit">Log in</button>
+            </form>
+          </section>
+
+          <section class="auth-choice-card signup-card">
+            <div class="auth-choice-heading">
+              <span class="auth-choice-icon">🌿</span>
+              <div>
+                <p class="eyebrow">New customer</p>
+                <h3>Create your account</h3>
+                <p>Register once, order faster and earn loyalty points.</p>
+              </div>
+            </div>
+
+            <form id="signup-form" class="stack-form">
+              <label>Full name<input name="name" minlength="2" maxlength="80" autocomplete="name" required></label>
+              <label>Email address<input name="email" type="email" autocomplete="email" required></label>
+              <label>Kenyan phone number<input name="phone" type="tel" placeholder="0712 345 678" autocomplete="tel" required></label>
+              <label>Address or usual delivery location<input name="address" maxlength="180" autocomplete="street-address"></label>
+              <label>Password<input name="password" type="password" minlength="8" autocomplete="new-password" required></label>
+              <div id="signup-message" class="message" hidden></div>
+              <button class="button full" type="submit">Create account</button>
+            </form>
+          </section>
+        </div>
       </div>
       <div id="logged-in-view" hidden>
         <div id="account-details" class="account-details"></div>
@@ -199,9 +249,21 @@
     </div>
   </dialog>
 
+
+  <a
+    class="whatsapp-button"
+    href="https://wa.me/254707588544"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Chat with Keriet Farm on WhatsApp"
+  >
+    <span>WhatsApp</span>
+    <strong>Chat with us</strong>
+  </a>
+
   <footer>
     <div><strong>Keriet Farm</strong><p>Fresh produce, baskets and customer rewards.</p></div>
-    <div><a href="tel:0790388133">0790 388 133</a><a href="tel:0707588544">0707 588 544</a></div>
+    <div><a href="tel:0790388133">0790 388 133</a><a href="tel:0707588544">0707 588 544</a><a class="footer-admin-link" href="/admin">Administrator dashboard</a></div>
   </footer>
 </body>
 </html>

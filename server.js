@@ -56,15 +56,84 @@ function writeStore(store) {
   fs.renameSync(temporaryFile, DATA_FILE);
 }
 
+function highestId(items) {
+  return Array.isArray(items)
+    ? items.reduce((highest, item) => {
+        const id = Number(item && item.id);
+        return Number.isFinite(id) ? Math.max(highest, id) : highest;
+      }, 0)
+    : 0;
+}
+
+function migrateStore() {
+  const store = readStore();
+
+  store.products = Array.isArray(store.products) ? store.products : [];
+  store.customers = Array.isArray(store.customers) ? store.customers : [];
+  store.orders = Array.isArray(store.orders) ? store.orders : [];
+  store.ratings = Array.isArray(store.ratings) ? store.ratings : [];
+  store.notifications = Array.isArray(store.notifications)
+    ? store.notifications
+    : [];
+  store.feedPosts = Array.isArray(store.feedPosts) ? store.feedPosts : [];
+
+  for (const customer of store.customers) {
+    customer.loyaltyPoints = Number(customer.loyaltyPoints) || 0;
+    customer.totalSpent = Number(customer.totalSpent) || 0;
+    customer.address = typeof customer.address === "string"
+      ? customer.address
+      : "";
+  }
+
+  for (const order of store.orders) {
+    order.pointsAwarded = Boolean(order.pointsAwarded);
+    order.pointsEarned = Number(order.pointsEarned) || 0;
+    order.paymentStatus = order.paymentStatus || "unpaid";
+    order.status = order.status || "pending";
+  }
+
+  store.nextIds = {
+    customer: Math.max(
+      Number(store.nextIds && store.nextIds.customer) || 1,
+      highestId(store.customers) + 1
+    ),
+    order: Math.max(
+      Number(store.nextIds && store.nextIds.order) || 1,
+      highestId(store.orders) + 1
+    ),
+    rating: Math.max(
+      Number(store.nextIds && store.nextIds.rating) || 1,
+      highestId(store.ratings) + 1
+    ),
+    notification: Math.max(
+      Number(store.nextIds && store.nextIds.notification) || 1,
+      highestId(store.notifications) + 1
+    ),
+    feedPost: Math.max(
+      Number(store.nextIds && store.nextIds.feedPost) || 1,
+      highestId(store.feedPosts) + 1
+    )
+  };
+
+  writeStore(store);
+  console.log("Keriet Farm data store migrated successfully.");
+}
+
 function synchronizeProductCatalogue() {
+  migrateStore();
+
   if (DATA_FILE === SEED_DATA_FILE) return;
+
   const seedStore = JSON.parse(fs.readFileSync(SEED_DATA_FILE, "utf8"));
   const liveStore = readStore();
+
   liveStore.products = seedStore.products;
   liveStore.feedPosts = seedStore.feedPosts;
+
   writeStore(liveStore);
   console.log("Keriet Farm catalogue synchronized.");
 }
+
 synchronizeProductCatalogue();
 
 function cleanText(value, maximumLength) {
@@ -215,8 +284,14 @@ app.post("/api/auth/login", async (request, response) => {
   const store = readStore();
   const customer = store.customers.find(item => item.email === email);
 
-  if (!customer || !(await bcrypt.compare(password, customer.passwordHash))) {
-    return response.status(401).json({ message: "Incorrect email or password." });
+  if (
+    !customer ||
+    typeof customer.passwordHash !== "string" ||
+    !(await bcrypt.compare(password, customer.passwordHash))
+  ) {
+    return response.status(401).json({
+      message: "Incorrect email or password."
+    });
   }
 
   setAuthCookie(response, createToken(customer));
@@ -449,13 +524,25 @@ app.get("/api/health", (request, response) => {
   response.json({ status: "ok", service: "Keriet Farm API" });
 });
 
+app.get("/admin", (request, response) => {
+  response.sendFile(path.join(__dirname, "public", "admin.html"));
+});
+
+app.get("/admin/", (request, response) => {
+  response.sendFile(path.join(__dirname, "public", "admin.html"));
+});
+
 app.get("/{*path}", (request, response) => {
   response.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.use((error, request, response, next) => {
-  console.error(error);
-  response.status(500).json({ message: "An unexpected server error occurred." });
+  const errorId = `KF-${Date.now().toString(36).toUpperCase()}`;
+  console.error(`[${errorId}]`, error);
+  response.status(500).json({
+    message: "An unexpected server error occurred.",
+    errorId
+  });
 });
 
 app.listen(PORT, "0.0.0.0", () => {
