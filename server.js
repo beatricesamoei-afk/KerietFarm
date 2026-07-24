@@ -13,8 +13,24 @@ const DATA_FILE = path.resolve(
 
 fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
 
+const SEED_DATA_FILE = path.join(
+  __dirname,
+  "data",
+  "store.json"
+);
+
 if (!fs.existsSync(DATA_FILE)) {
-  throw new Error(`Data file not found: ${DATA_FILE}`);
+  if (!fs.existsSync(SEED_DATA_FILE)) {
+    throw new Error(
+      `Seed data file not found: ${SEED_DATA_FILE}`
+    );
+  }
+
+  fs.copyFileSync(SEED_DATA_FILE, DATA_FILE);
+
+  console.log(
+    `Created initial data file at ${DATA_FILE}`
+  );
 }
 
 app.disable("x-powered-by");
