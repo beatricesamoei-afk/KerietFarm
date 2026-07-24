@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 60" role="img" aria-labelledby="title">
+<title id="title">Keriet Farm leaves</title>
+<g fill="none" stroke="#d8b45b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M60 52C58 35 55 22 45 10"/>
+  <path d="M59 50C67 36 75 25 90 16"/>
+  <path d="M44 11C28 11 18 19 15 33C31 33 42 26 44 11Z" fill="#2f7a4d" stroke="#d8b45b"/>
+  <path d="M90 16C102 18 109 27 108 39C96 38 87 30 90 16Z" fill="#3f925d" stroke="#d8b45b"/>
+  <path d="M57 31C47 28 40 21 39 12"/>
+  <path d="M68 34C76 31 84 25 89 17"/>
+</g>
+</svg>

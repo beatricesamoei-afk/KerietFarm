@@ -10,6 +10,14 @@ services:
         value: production
       - key: DATA_FILE
         value: /var/data/store.json
+      - key: BUSINESS_PHONE_1
+        value: "0790388133"
+      - key: BUSINESS_PHONE_2
+        value: "0707588544"
+      - key: MPESA_PAYMENT_NUMBER
+        value: "0707588544"
+      - key: MPESA_PAYMENT_NAME
+        value: "Keriet Farm"
     disk:
       name: keriet-farm-data
       mountPath: /var/data

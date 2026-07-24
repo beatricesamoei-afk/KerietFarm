@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Shop fresh produce from Keriet Farm.">
-  <title>Keriet Farm | Fresh from our farm</title>
+  <meta name="description" content="Shop fresh produce and farm baskets from Keriet Farm.">
+  <title>Keriet Farm | Fresh produce and farm baskets</title>
   <link rel="stylesheet" href="/styles.css">
   <script src="/app.js" defer></script>
 </head>
@@ -12,161 +12,196 @@
   <header class="site-header">
     <a class="brand" href="/">
       <span class="brand-mark">KF</span>
-      <span><strong>Keriet Farm</strong><small>Fresh from our farm</small></span>
+      <span class="brand-copy"><span class="brand-name-row"><strong>Keriet Farm</strong><img class="brand-leaves" src="/images/leaves.svg" alt=""></span><small>Farm to Table</small></span>
     </a>
-
     <nav>
       <a href="#products">Products</a>
+      <a href="#baskets">Baskets</a>
       <a href="/feed.html">Farm Feed</a>
-      <a href="#loyalty">Points</a>
-      <a href="#about">About</a>
-      <button id="cart-button" class="cart-button" type="button">
-        Cart <span id="cart-count">0</span>
-      </button>
+      <a href="#contact">Contact</a>
+      <button id="account-button" class="ghost-button" type="button">Account</button>
+      <button id="notification-button" class="icon-nav-button" type="button">🔔 <span id="notification-count">0</span></button>
+      <button id="cart-button" class="cart-button" type="button">Cart <span id="cart-count">0</span></button>
     </nav>
   </header>
 
   <main>
     <section class="hero">
       <div>
-        <p class="eyebrow">Fresh • Local • Naturally grown</p>
-        <h1>Farm goodness delivered with care.</h1>
-        <p class="lead">
-          Shop fresh avocados, kienyeji eggs, pure Keriet Farm honey
-          and naturally ripened bananas.
-        </p>
+        <p class="eyebrow">Farm to Table • Fresh • Local • Rewarding</p>
+        <h1>Real farm products, thoughtfully prepared for your home.</h1>
+        <p class="lead">Shop fresh kienyeji eggs, pure honey, avocados, bananas and ready-made Keriet Farm baskets.</p>
         <div class="hero-actions">
-          <a class="button" href="#products">Shop fresh produce</a>
-          <a class="button secondary" href="/feed.html">Visit farm feed</a>
+          <a class="button" href="#products">Shop individual products</a>
+          <a class="button secondary" href="#baskets">Explore farm baskets</a>
+        </div>
+        <div class="commerce-trust">
+          <span>Secure account</span>
+          <span>M-Pesa checkout</span>
+          <span>Customer notifications</span>
+        </div>
+        <div class="contact-pills">
+          <a href="tel:0790388133">📞 0790 388 133</a>
+          <a href="tel:0707588544">📞 0707 588 544</a>
         </div>
       </div>
+      <div class="hero-photo-grid">
+        <img src="/images/honey.jpg.jpeg" alt="Keriet Farm honey">
+        <img src="/images/eggs.jpg.jpeg" alt="Kienyeji eggs">
+        <img src="/images/bananas.jpg.jpeg" alt="Green and ripe bananas">
+      </div>
+    </section>
 
-      <img src="/images/hero-farm.svg" alt="Keriet Farm fresh produce">
+    <section class="benefits">
+      <article><span>🌿</span><div><strong>Fresh farm produce</strong><p>Real products photographed from Keriet Farm.</p></div></article>
+      <article><span>🔐</span><div><strong>Secure customer account</strong><p>Sign up, log in and track orders.</p></div></article>
+      <article><span>⭐</span><div><strong>Points after payment</strong><p>One point per complete KSh 100.</p></div></article>
     </section>
 
     <section id="products" class="section">
       <div class="section-heading">
-        <div>
-          <p class="eyebrow">Fresh selection</p>
-          <h2>Shop Keriet Farm products</h2>
-        </div>
-        <p>All prices are shown in Kenyan shillings.</p>
+        <div><p class="eyebrow">Individual products</p><h2>Fresh essentials from the farm</h2></div>
+        <p>Choose individual items and build your own order.</p>
       </div>
-
       <div id="product-message" class="message" hidden></div>
-      <div id="product-grid" class="product-grid">
-        <p>Loading products…</p>
-      </div>
+      <div id="individual-grid" class="product-grid"></div>
     </section>
 
-    <section id="loyalty" class="section loyalty">
-      <div>
-        <p class="eyebrow light">Keriet rewards</p>
-        <h2>Earn one point for every complete KSh 100 spent.</h2>
-        <p>Use the same phone number when ordering and checking your balance.</p>
+    <section id="baskets" class="section basket-section">
+      <div class="section-heading">
+        <div><p class="eyebrow">Keriet Farm baskets</p><h2>Ready-made solutions for every household</h2></div>
+        <p>Curated combinations that make ordering simple.</p>
       </div>
-
-      <form id="points-form">
-        <label for="points-phone">Kenyan phone number</label>
-        <input id="points-phone" name="phone" type="tel" placeholder="0712 345 678" required>
-        <button class="button light-button" type="submit">Check points</button>
-        <div id="points-message" class="message" hidden></div>
-      </form>
+      <div id="basket-grid" class="basket-grid"></div>
     </section>
 
-    <section id="about" class="section about">
-      <img src="/images/farm-feed.svg" alt="Keriet Farm illustration">
+    <section class="section account-preview">
       <div>
-        <p class="eyebrow">About us</p>
-        <h2>Fresh produce and honest value.</h2>
-        <p>
-          Place your order online and Keriet Farm will contact you to confirm
-          availability, delivery or pickup, and payment.
-        </p>
-        <a class="text-link" href="/feed.html">Read farm updates →</a>
+        <p class="eyebrow light">Your Keriet account</p>
+        <h2>Create an account to order, receive updates and earn points.</h2>
+        <p>Customers receive website notifications and email updates when email delivery is configured.</p>
+      </div>
+      <button id="account-cta" class="light-button" type="button">Sign up or log in</button>
+    </section>
+
+    <section id="contact" class="section contact-section">
+      <div><p class="eyebrow">Need assistance?</p><h2>Talk directly to Keriet Farm.</h2></div>
+      <div class="contact-cards">
+        <a href="tel:0790388133"><span>Phone one</span><strong>0790 388 133</strong></a>
+        <a href="tel:0707588544"><span>Phone two</span><strong>0707 588 544</strong></a>
       </div>
     </section>
   </main>
 
-  <aside id="cart-panel" class="cart-panel" aria-hidden="true">
-    <div class="panel-heading">
-      <div><p class="eyebrow">Your basket</p><h2>Shopping cart</h2></div>
-      <button id="close-cart" class="icon-button" type="button">×</button>
-    </div>
+  <aside id="cart-panel" class="side-panel" aria-hidden="true">
+    <div class="panel-heading"><div><p class="eyebrow">Your order</p><h2>Shopping cart</h2></div><button id="close-cart" class="icon-button" type="button">×</button></div>
+    <div id="cart-items" class="scroll-area"></div>
+    <div id="cart-empty" class="empty-state"><span>🧺</span><p>Your cart is empty.</p></div>
+    <div id="cart-summary" hidden><div class="total-row"><span>Total</span><strong id="cart-total">KSh 0</strong></div><button id="checkout-button" class="button full" type="button">Continue to checkout</button></div>
+  </aside>
 
-    <div id="cart-items" class="cart-items"></div>
-
-    <div id="cart-empty" class="cart-empty">
-      <span>🧺</span>
-      <p>Your cart is empty.</p>
-    </div>
-
-    <div id="cart-summary" hidden>
-      <div class="total-row">
-        <span>Total</span>
-        <strong id="cart-total">KSh 0</strong>
-      </div>
-      <p class="small">Delivery and payment will be confirmed after ordering.</p>
-      <button id="checkout-button" class="button full" type="button">Continue to checkout</button>
-    </div>
+  <aside id="notification-panel" class="side-panel" aria-hidden="true">
+    <div class="panel-heading"><div><p class="eyebrow">Updates</p><h2>Notifications</h2></div><button id="close-notifications" class="icon-button" type="button">×</button></div>
+    <div id="notification-list" class="scroll-area"></div>
+    <div id="notification-message" class="message" hidden></div>
   </aside>
 
   <div id="overlay" class="overlay" hidden></div>
 
+  <dialog id="account-dialog">
+    <div class="dialog-content">
+      <div class="panel-heading"><div><p class="eyebrow">Keriet account</p><h2>Welcome</h2></div><button id="close-account" class="icon-button" type="button">×</button></div>
+      <div id="logged-out-view">
+        <div class="auth-tabs"><button id="show-login" class="active" type="button">Log in</button><button id="show-signup" type="button">Create account</button></div>
+        <form id="login-form" class="stack-form">
+          <label>Email address<input name="email" type="email" required></label>
+          <label>Password<input name="password" type="password" required></label>
+          <div id="login-message" class="message" hidden></div>
+          <button class="button full" type="submit">Log in</button>
+        </form>
+        <form id="signup-form" class="stack-form" hidden>
+          <label>Full name<input name="name" minlength="2" maxlength="80" required></label>
+          <label>Email address<input name="email" type="email" required></label>
+          <label>Kenyan phone number<input name="phone" type="tel" placeholder="0712 345 678" required></label>
+          <label>Address or usual delivery location<input name="address" maxlength="180"></label>
+          <label>Password<input name="password" type="password" minlength="8" required></label>
+          <div id="signup-message" class="message" hidden></div>
+          <button class="button full" type="submit">Create account</button>
+        </form>
+      </div>
+      <div id="logged-in-view" hidden>
+        <div id="account-details" class="account-details"></div>
+        <div class="account-actions">
+          <button id="refresh-account" class="button secondary" type="button">Refresh account</button>
+          <button id="logout-button" class="danger-button" type="button">Log out</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
   <dialog id="checkout-dialog">
-    <form id="checkout-form">
-      <div class="panel-heading">
-        <div><p class="eyebrow">Checkout</p><h2>Order details</h2></div>
-        <button id="close-checkout" class="icon-button" type="button">×</button>
+    <form id="checkout-form" class="stack-form dialog-content">
+      <div class="panel-heading"><div><p class="eyebrow">Checkout</p><h2>Order details</h2></div><button id="close-checkout" class="icon-button" type="button">×</button></div>
+      <div id="checkout-account-summary" class="account-summary"></div>
+      <label>Delivery or pickup location<input name="location" maxlength="180" required></label>
+      <label>Payment method
+        <select id="payment-method" name="paymentMethod" required>
+          <option value="">Choose payment method</option>
+          <option value="mpesa">M-Pesa</option>
+          <option value="cash">Cash on delivery or pickup</option>
+        </select>
+      </label>
+      <div id="mpesa-box" class="mpesa-box" hidden>
+        <strong>M-Pesa payment</strong>
+        <p id="mpesa-instructions"></p>
+        <label>M-Pesa transaction code<input name="mpesaCode" maxlength="20" placeholder="Optional until payment is sent"></label>
       </div>
-
-      <label>Full name<input name="customerName" minlength="2" maxlength="80" required></label>
-      <label>Phone number<input name="phone" type="tel" placeholder="0712 345 678" required></label>
-      <label>Delivery or pickup location<input name="location" maxlength="150" required></label>
-      <label>Notes<textarea name="notes" maxlength="500" rows="3"></textarea></label>
-
-      <div class="total-row">
-        <span>Order total</span>
-        <strong id="checkout-total">KSh 0</strong>
-      </div>
-
+      <label>Order notes<textarea name="notes" maxlength="500" rows="3"></textarea></label>
+      <div class="total-row"><span>Total</span><strong id="checkout-total">KSh 0</strong></div>
+      <p class="points-note">Points are awarded only after Keriet Farm confirms payment.</p>
       <div id="checkout-message" class="message" hidden></div>
       <button id="submit-order" class="button full" type="submit">Place order</button>
     </form>
   </dialog>
 
   <dialog id="rating-dialog">
-    <form id="rating-form">
-      <div class="panel-heading">
-        <div><p class="eyebrow">Product review</p><h2 id="rating-title">Rate product</h2></div>
-        <button id="close-rating" class="icon-button" type="button">×</button>
-      </div>
-
+    <form id="rating-form" class="stack-form dialog-content">
+      <div class="panel-heading"><div><p class="eyebrow">Product review</p><h2 id="rating-title">Rate product</h2></div><button id="close-rating" class="icon-button" type="button">×</button></div>
       <input id="rating-product-id" type="hidden">
-
-      <label>Full name<input name="customerName" minlength="2" maxlength="80" required></label>
-      <label>Phone number<input name="phone" type="tel" placeholder="0712 345 678" required></label>
-      <label>
-        Rating
+      <label>Rating
         <select name="rating" required>
-          <option value="">Choose a rating</option>
-          <option value="5">★★★★★ Excellent</option>
-          <option value="4">★★★★☆ Very good</option>
-          <option value="3">★★★☆☆ Good</option>
-          <option value="2">★★☆☆☆ Fair</option>
-          <option value="1">★☆☆☆☆ Poor</option>
+          <option value="">Choose</option>
+          <option value="5">★★★★★ Excellent</option><option value="4">★★★★☆ Very good</option>
+          <option value="3">★★★☆☆ Good</option><option value="2">★★☆☆☆ Fair</option><option value="1">★☆☆☆☆ Poor</option>
         </select>
       </label>
       <label>Review<textarea name="comment" maxlength="500" rows="4"></textarea></label>
-
       <div id="rating-message" class="message" hidden></div>
-      <button class="button full" type="submit">Publish review</button>
+      <button class="button full" type="submit">Save review</button>
     </form>
   </dialog>
 
+
+  <dialog id="poster-dialog" class="poster-dialog">
+    <div class="poster-dialog-content">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Keriet Farm basket</p>
+          <h2 id="poster-dialog-title">Basket</h2>
+        </div>
+        <button id="close-poster" class="icon-button" type="button">×</button>
+      </div>
+      <img id="poster-dialog-image" class="poster-dialog-image" src="" alt="">
+      <div class="poster-dialog-footer">
+        <strong id="poster-dialog-price">KSh 0</strong>
+        <button id="poster-dialog-add" class="button" type="button">Add basket to cart</button>
+      </div>
+    </div>
+  </dialog>
+
   <footer>
-    <strong>Keriet Farm</strong>
-    <span>© <span id="year"></span> Keriet Farm</span>
+    <div><strong>Keriet Farm</strong><p>Fresh produce, baskets and customer rewards.</p></div>
+    <div><a href="tel:0790388133">0790 388 133</a><a href="tel:0707588544">0707 588 544</a></div>
   </footer>
 </body>
 </html>

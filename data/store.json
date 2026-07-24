@@ -2,120 +2,228 @@
   "products": [
     {
       "id": 1,
-      "name": "Fresh Avocados",
-      "description": "Creamy, naturally grown avocados harvested fresh from Keriet Farm.",
-      "price": 30,
-      "unit": "each",
-      "image": "/images/avocados.svg",
+      "name": "Kienyeji Eggs – 15 Eggs",
+      "description": "Fifteen fresh kienyeji eggs, carefully packed and ready for home use.",
+      "price": 330,
+      "unit": "15 eggs",
+      "image": "/images/eggs.jpg.jpeg",
+      "category": "individual",
+      "badge": "Farm fresh",
       "active": true
     },
     {
       "id": 2,
-      "name": "Kienyeji Eggs",
+      "name": "Kienyeji Eggs – Full Crate",
       "description": "One full crate of fresh kienyeji eggs from healthy free-range hens.",
       "price": 660,
       "unit": "crate",
-      "image": "/images/eggs.svg",
+      "image": "/images/eggs.jpg.jpeg",
+      "category": "individual",
+      "badge": "Best value",
       "active": true
     },
     {
       "id": 3,
-      "name": "Keriet Farm Honey",
-      "description": "Pure natural honey packed in a branded 700g Keriet Farm jar.",
+      "name": "Keriet Farm Pure Honey",
+      "description": "Pure natural Keriet Farm honey packed in a 750 ml container.",
       "price": 750,
-      "unit": "700g jar",
-      "image": "/images/honey.svg",
+      "unit": "750 ml",
+      "image": "/images/honey.jpg.jpeg",
+      "category": "individual",
+      "badge": "Pure honey",
       "active": true
     },
     {
       "id": 4,
+      "name": "Fresh Avocados",
+      "description": "Three fresh, naturally grown Keriet Farm avocados.",
+      "price": 100,
+      "unit": "3 avocados",
+      "image": "/images/avocados.jpg.jpeg",
+      "category": "individual",
+      "badge": "Fresh harvest",
+      "active": true
+    },
+    {
+      "id": 5,
       "name": "Fresh Bananas",
-      "description": "Sweet, naturally ripened bananas sold in bundles of three.",
+      "description": "Three fresh bananas, available green or naturally ripened.",
       "price": 20,
       "unit": "3 bananas",
-      "image": "/images/bananas.svg",
+      "image": "/images/bananas.jpg.jpeg",
+      "category": "individual",
+      "badge": "Green or ripe",
       "active": true
+    },
+    {
+      "id": 6,
+      "name": "Campus Basket",
+      "description": "A convenient breakfast basket for students.",
+      "price": 500,
+      "unit": "basket",
+      "image": "/images/campus-basket.jpg",
+      "category": "basket",
+      "badge": "Student choice",
+      "contents": [
+        "15 kienyeji eggs",
+        "3 avocados",
+        "6 bananas"
+      ],
+      "active": true,
+      "poster": true
+    },
+    {
+      "id": 7,
+      "name": "Morning Basket",
+      "description": "A week of wholesome breakfasts for a busy household.",
+      "price": 1150,
+      "unit": "basket",
+      "image": "/images/morning-basket.jpg",
+      "category": "basket",
+      "badge": "Save KSh 210",
+      "contents": [
+        "15 kienyeji eggs",
+        "750 ml pure honey",
+        "6 avocados",
+        "12 bananas"
+      ],
+      "active": true,
+      "poster": true
+    },
+    {
+      "id": 8,
+      "name": "Performance Basket",
+      "description": "Natural protein, healthy fats and energy.",
+      "price": 1250,
+      "unit": "basket",
+      "image": "/images/performance-basket.jpg",
+      "category": "basket",
+      "badge": "Active lifestyle",
+      "contents": [
+        "15 kienyeji eggs",
+        "750 ml pure honey",
+        "6 avocados"
+      ],
+      "active": true,
+      "poster": true
+    },
+    {
+      "id": 9,
+      "name": "Family Basket",
+      "description": "Fresh farm essentials selected for the whole family.",
+      "price": 1750,
+      "unit": "basket",
+      "image": "/images/family-basket.jpg",
+      "category": "basket",
+      "badge": "Family favourite",
+      "contents": [
+        "1 crate kienyeji eggs",
+        "750 ml pure honey",
+        "6 avocados",
+        "12 bananas"
+      ],
+      "active": true,
+      "poster": true
     }
   ],
   "customers": [
     {
       "id": 1,
-      "name": "yyy",
-      "phone": "+254732567876",
-      "loyaltyPoints": 0,
-      "totalSpent": 30,
-      "createdAt": "2026-07-24T14:14:31.296Z",
-      "updatedAt": "2026-07-24T14:14:31.297Z"
+      "name": "test",
+      "email": "test123@gmail.com",
+      "phone": "+254707588544",
+      "address": "nairobi",
+      "passwordHash": "$2b$12$l1BLCRJKYA4u./dV4R.RQeDk/k8CLIevNcEpdUnPWYPwthOeQ7iL2",
+      "loyaltyPoints": 12,
+      "totalSpent": 1250,
+      "createdAt": "2026-07-24T19:30:09.445Z",
+      "updatedAt": "2026-07-24T19:32:03.760Z"
     }
   ],
   "orders": [
     {
       "id": 1,
       "customerId": 1,
-      "customerName": "yyy",
-      "phone": "+254732567876",
-      "location": "langata",
-      "notes": "nothing for now",
+      "customerName": "test",
+      "email": "test123@gmail.com",
+      "phone": "+254707588544",
+      "location": "nairobi",
+      "notes": "",
       "items": [
         {
-          "productId": 1,
-          "productName": "Fresh Avocados",
-          "unitPrice": 30,
+          "productId": 8,
+          "productName": "Performance Basket",
+          "unitPrice": 1250,
           "quantity": 1,
-          "subtotal": 30
+          "subtotal": 1250
         }
       ],
-      "total": 30,
-      "pointsEarned": 0,
-      "status": "pending",
-      "createdAt": "2026-07-24T14:14:31.297Z"
+      "total": 1250,
+      "paymentMethod": "mpesa",
+      "mpesaCode": "uk12345678",
+      "paymentStatus": "paid",
+      "status": "confirmed",
+      "pointsAwarded": true,
+      "pointsEarned": 12,
+      "createdAt": "2026-07-24T19:30:52.604Z",
+      "paymentConfirmedAt": "2026-07-24T19:32:03.760Z"
     }
   ],
-  "ratings": [
+  "ratings": [],
+  "notifications": [
     {
       "id": 1,
-      "productId": 2,
-      "customerName": "yyy",
-      "phone": "+254732567876",
-      "rating": 5,
-      "comment": "",
-      "approved": true,
-      "createdAt": "2026-07-24T14:15:29.870Z"
+      "customerId": 1,
+      "title": "Welcome to Keriet Farm",
+      "message": "Your Keriet Farm account has been created successfully.",
+      "type": "account",
+      "read": false,
+      "createdAt": "2026-07-24T19:30:09.445Z"
+    },
+    {
+      "id": 2,
+      "customerId": 1,
+      "title": "Order #1 received",
+      "message": "We received your order worth KSh 1250. We will notify you after payment is confirmed.",
+      "type": "order",
+      "read": false,
+      "createdAt": "2026-07-24T19:30:52.604Z"
+    },
+    {
+      "id": 3,
+      "customerId": 1,
+      "title": "Payment confirmed for order #1",
+      "message": "Your payment was confirmed. You earned 12 point(s) and now have 12 point(s).",
+      "type": "payment",
+      "read": false,
+      "createdAt": "2026-07-24T19:32:03.760Z"
     }
   ],
   "feedPosts": [
     {
       "id": 1,
       "title": "Welcome to Keriet Farm",
-      "content": "Order fresh avocados, kienyeji eggs, pure honey and bananas directly from our farm.",
+      "content": "Create an account, shop fresh products and track your Keriet Farm reward points.",
       "category": "announcement",
-      "image": "/images/farm-feed.svg",
+      "image": "/images/honey.jpg.jpeg",
       "published": true,
       "createdAt": "2026-07-24T08:00:00.000Z"
     },
     {
       "id": 2,
-      "title": "Fresh kienyeji eggs available",
-      "content": "Fresh kienyeji eggs are available at KSh 660 per crate while stocks last.",
+      "title": "Fresh produce now available",
+      "content": "Kienyeji eggs, pure honey, avocados, bananas and ready-made farm baskets are available.",
       "category": "availability",
-      "image": "/images/eggs.svg",
+      "image": "/images/eggs.jpg.jpeg",
       "published": true,
       "createdAt": "2026-07-24T09:00:00.000Z"
-    },
-    {
-      "id": 3,
-      "title": "Earn Keriet Farm rewards",
-      "content": "Earn one loyalty point for every complete KSh 100 spent using the same phone number.",
-      "category": "loyalty",
-      "image": "/images/honey.svg",
-      "published": true,
-      "createdAt": "2026-07-24T10:00:00.000Z"
     }
   ],
   "nextIds": {
     "customer": 2,
     "order": 2,
-    "rating": 2,
-    "feedPost": 4
+    "rating": 1,
+    "notification": 4,
+    "feedPost": 3
   }
 }

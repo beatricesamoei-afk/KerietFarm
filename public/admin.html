@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order Management | Keriet Farm</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/admin.js" defer></script>
+</head>
+<body class="admin-body">
+  <header class="site-header">
+    <a class="brand" href="/">
+      <span class="brand-mark">KF</span>
+      <span class="brand-copy"><span class="brand-name-row"><strong>Keriet Farm</strong><img class="brand-leaves" src="/images/leaves.svg" alt=""></span><small>Farm to Table • Order management</small></span>
+    </a>
+    <nav><a href="/">Return to shop</a></nav>
+  </header>
+
+  <main class="admin-main">
+    <section class="admin-login-card">
+      <p class="eyebrow">Administrator</p>
+      <h1>Manage customer orders</h1>
+      <p>Enter the administrator key stored in your .env or Render environment variables.</p>
+      <form id="admin-key-form">
+        <label>Administrator key<input id="admin-key" type="password" required></label>
+        <button class="button" type="submit">Load orders</button>
+      </form>
+      <div id="admin-message" class="message" hidden></div>
+    </section>
+
+    <section id="orders-section" class="section" hidden>
+      <div class="section-heading">
+        <div><p class="eyebrow">Orders</p><h2>Payment and fulfilment</h2></div>
+        <button id="refresh-orders" class="button secondary" type="button">Refresh</button>
+      </div>
+      <div id="admin-orders" class="admin-orders"></div>
+    </section>
+  </main>
+</body>
+</html>
